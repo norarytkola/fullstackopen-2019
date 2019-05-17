@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
+
 const Header =()=> {
     return(
         <div>
@@ -10,7 +11,7 @@ const Header =()=> {
         </div>
     )
 }
-
+/*
 const Kokonais =(props)=> {
     return(
         <div>
@@ -43,16 +44,17 @@ const Positiiviset =(props) => {
         </div>
     )
 }
-const Tilastot =(props)=> {
+*/
+const Statistics =(props)=> {
+    if (props.onko > 0 ){
     return(
-        <div>
-            <h1>Statistiikka:</h1>
-            <Kokonais hyva={props.hyva} nautraali={props.neutraali} huono={props.huono} />
-            <YhteisMaara yht={props.yht}/>
-            <Keskiarvo ka={props.ka}/>
-            <Positiiviset prosentti={props.prosentti}/>
-        </div>
+        <> 
+        <tr>
+           <td>{props.text}</td><td>{props.value}</td>
+        </tr>
+        </>
     )
+    } else { return null}
 }
 const Nappi =(props)=> {
     return (
@@ -62,21 +64,17 @@ const Nappi =(props)=> {
     )
 }
 const OnkoPalautteita =(props)=> {
-        if  ( props.onko ==0) {
+
+        if  ( props.onko === 0) {
             return (
             <div>
                 <h1>Statistiikka:</h1>
                   Ei vielä yhtään palautteita.
              </div>
-            )
-        } else {
-            return(
-            <div>
-           <Tilastot hyva={props.hyva} nautraali={props.neutraali} huono={props.huono} yht={props.yht} ka={props.ka} prosentti={props.prosentti}/>
-           </div>
-           )
-        }
+           )} else { return <h1>Statistiikka:</h1>}
+           
 }
+
 
 
 
@@ -86,8 +84,6 @@ const App = (props) => {
     const [huono, asetaHuono] = React.useState(0)
     let yht=hyva+huono+neutraali
 
-
-
     
 
         return (
@@ -96,18 +92,20 @@ const App = (props) => {
         <Nappi handleclick={() => asetaHyva(hyva +1)} nimi="hyva"></Nappi>
         <Nappi handleclick={() =>asetaNeutraali(neutraali +1)} nimi="neutraali"></Nappi>
         <Nappi handleclick={() =>asetaHuono(huono +1)} nimi="huono"></Nappi>
-        <OnkoPalautteita onko={yht} hyva={hyva} neutraali={neutraali} huono={huono} yht={yht} ka={((hyva*1)+(huono*-1))/yht} prosentti={hyva/yht*100}/>
-        
+        <OnkoPalautteita onko={yht} />
+        <Statistics onko={yht} text="Hyvä:" value ={hyva} />
+        <Statistics onko={yht} text="Neutraali:" value ={neutraali} />
+        <Statistics onko={yht} text="Huono:" value ={huono} />
+        <Statistics onko={yht} text="Yhteensä:" value ={yht} />
+        <Statistics onko={yht} text="Keskiarvo:" value ={((hyva*1)+(huono*-1))/yht} />
+        <Statistics onko={yht} text="Positiivisia:" value ={hyva/yht*100} />
+       
     
-    
-   
     </div>
         )
 
 
 }
-
-
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
