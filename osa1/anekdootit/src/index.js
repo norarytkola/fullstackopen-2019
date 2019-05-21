@@ -8,17 +8,30 @@ const Lause = (props) => {
         </>
     )
 }
+const Tilasto =(aanet, Array )=>{
+  
+  return (
+    <>
+
+    </>
+  )
+}
+
 
 
 
 
 const App = (props) => {
+    const listanpituus=props.anecdotes.length;
     const [selected, setSelected] = React.useState(0);
     let random=(Math.round(5 * Math.random()));
-    
-  
-  
+    const [aanet, aanesta]=React.useState(Array(listanpituus).fill(0))
 
+    const aanestys =(selected)=> {
+      const kopioi=[...aanet]
+      kopioi[selected]+=1
+      aanesta(kopioi)
+    }
     const anecdotes = [
       
       'If it hurts, do it more often',
@@ -35,9 +48,10 @@ const App = (props) => {
       <div>
         <Lause anecdotes={anecdotes} selected={selected}/>
         <button onClick={() => setSelected(random)}>Next anecdote</button>
+        <button onClick={()=> aanestys(selected) }>Vote</button>
         
         
-        
+    
         
       </div>
     )
