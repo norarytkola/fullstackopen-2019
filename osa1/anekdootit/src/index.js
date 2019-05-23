@@ -8,16 +8,27 @@ const Lause = (props) => {
         </>
     )
 }
-const Tilasto =(aanet, Array )=>{
+
+const Most =(aanet, anecdotes) => {
+  let suurin=0
+    for (let i=0; i < aanet.length; i++){
+      if (aanet[i]>suurin){
+        suurin=aanet[i]
+      }
+    }
+
+  if (suurin===0) {return (
+    <>Ei vielä ääniä. </>
+  )} 
+  else {
   
+  let i=aanet.indexOf(suurin)
   return (
-    <>
-
+    <>Eniten ääniä: {anecdotes[i]}
+    Äänet: {suurin}
     </>
-  )
+  )}
 }
-
-
 
 
 
@@ -42,14 +53,17 @@ const App = (props) => {
       aanesta(kopioi)
     }
    
-
   
+   
     return (
-      <div>
+            <div>
         <Lause anecdotes={anecdotes} selected={selected}/>
         <button onClick={() => setSelected(random)}>Next anecdote</button>
-        <button onClick={()=> aanestys(selected) }>Vote</button>
-        Ääniä:{aanet[selected]}
+        <button onClick={()=> aanestys(selected) }>Vote</button><br/>
+        Ääniä:{aanet[selected]}<br/>
+        <div>{Most (aanet, anecdotes) }</div>
+      
+        
         
         
     
