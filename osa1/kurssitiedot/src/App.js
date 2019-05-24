@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import  { Yhteystieto } from "react";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 
 
