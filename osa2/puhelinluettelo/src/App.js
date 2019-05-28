@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import Filtteri from './components/Filtteri';
 import Yhteystieto from './components/Yhteystieto'
-
+import Filtteri from './components/Filtteri';
 
 
 
 
 const App = () => {
-    const [ persons, setPersons] = useState([
+
+  const [ persons, setPersons] = useState([
       { nimi: 'Arto Hellas',
-        numero:'0401234567'
+        numero:'0401234567',
+        important:true
      },
       { nimi: 'Maija Mehiläinen',
-        numero: '041-2345678'
+        numero: '041-2345678',
+        important:true
       }
     ]) 
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
-    
+    const lista=[...persons] 
 
     const lisaaNimi =(event)=>{
       let val=event.target.value
@@ -28,12 +30,9 @@ const App = () => {
             } else {
               setNewName(val)
               return true
-              
-            }}}
-           
+            }}}         
 
     const lisaanro =(event)=>{
-      
       let nro=event.target.value
          for (let i=0; i<persons.length; i++){
             if (nro===persons[i].numero){
@@ -44,36 +43,45 @@ const App = () => {
                  return true
                }}}
  
-     const addNewName =(event)=> {
+    const addNewName =(event)=> {
             event.preventDefault()
             if (lisaaNimi===true &&lisaanro===true){
             const lisays= {
               nimi:newName, 
               numero:newNumber,
-            }
-            
+              important:true
+            }  
             setPersons(persons.concat(lisays))
           }} 
-     const lista=[...persons] 
-     
-     const rows = () =>lista.map(yhteystieto =>
-            <Yhteystieto 
-              key={yhteystieto.id}
-              nimi={yhteystieto.nimi}
-              numero={yhteystieto.numero} 
-              />)
-
    
-      const handleChange=(event)=>{  
-        const haku=event.target.value
-         if (haku !== "") {
-            lista.filter( haku)
-              }
+    const handleChange =(event)=> { 
+        let haku=event.target.value
+        var re = new RegExp(haku, "ig")
+        for (let i=0; i<lista.length; i++){
+           if (lista[i].nimi.search(re) > -1 || lista[i].numero.search(re) > -1){
+             lista[i].important=true
+            } else {
+             lista[i].important = false 
             }
+         }
+
+         yhteystiedot = lista.filter(yhteystieto=> yhteystieto.important===true)
+         
+      }
+    
+  
+  
+    let yhteystiedot = lista.filter(yhteystieto=> yhteystieto.important===true)
+ 
+
+ 
+   return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <div>Rajaa näytettäviä: <input onChange={handleChange()}/><br/>
-        </div>
+      <form>
+        <div>Rajaa näytettäviä: <input onChange={handleChange}/><br/>
+        </div></form>
+        
         <form onSubmit={addNewName}>
           <div>
             nimi:<br/> <input value={newName} onChange={lisaaNimi} />
@@ -87,9 +95,10 @@ const App = () => {
       </form>
       
          <h2>Numerot</h2>
-        <div>{rows()}</div>
+        <div>{Filtteri(yhteystiedot)}</div>
 
       </div>
+      )
   
   }
 
