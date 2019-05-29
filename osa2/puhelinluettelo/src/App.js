@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import Yhteystieto from './components/Yhteystieto'
-import Filtteri from './components/Filtteri';
+import Yhteystieto from './components/Yhteystieto';
 
 
 
 
 const App = () => {
 
-  const [ persons, setPersons] = useState([
+  const [ persons, setPersons] = React.useState([
       { nimi: 'Arto Hellas',
         numero:'0401234567',
         important:true
@@ -17,18 +16,19 @@ const App = () => {
         important:true
       }
     ]) 
-    const [ newName, setNewName ] = useState('')
-    const [ newNumber, setNewNumber ] = useState('')
-    const lista=[...persons] 
+    const [ newName, setNewName ] = React.useState('')
+    const [ newNumber, setNewNumber ] = React.useState('')
+
 
     const lisaaNimi =(event)=>{
       let val=event.target.value
       for (let i=0; i<persons.length; i++){
         if (val===persons[i].nimi){
            alert( `${val} on jo puhelinluettelossa`)
+           setNewName('')
            return false
             } else {
-              setNewName(val)
+            setNewName(val)
               return true
             }}}         
 
@@ -37,52 +37,67 @@ const App = () => {
          for (let i=0; i<persons.length; i++){
             if (nro===persons[i].numero){
                alert(`${nro} on jo puhelinluettelossa`)
+               setNewNumber('')
                return false
-               } else {
-                 setNewNumber(nro)
-                 return true
-               }}}
- 
-    const addNewName =(event)=> {
+            }else {
+                setNewNumber(nro)
+                return true
+            }
+               }}
+     console.log(newNumber)
+
+
+    const addNewContact =(event)=> {
             event.preventDefault()
-            if (lisaaNimi===true &&lisaanro===true){
-            const lisays= {
-              nimi:newName, 
-              numero:newNumber,
-              important:true
-            }  
+                    const lisays= {
+                         nimi:newName, 
+                         numero:newNumber,
+                         important:true}
             setPersons(persons.concat(lisays))
-          }} 
+            setNewName('')
+            setNewNumber('')
+          } 
+
+    const [naytaKaikki, aseta] = useState(true)
+
+    const  yhteystiedot=naytaKaikki
+    ? persons.filter(person=> person.important)
+    : persons.filter(person=> person.important)
+
    
     const handleChange =(event)=> { 
         let haku=event.target.value
         var re = new RegExp(haku, "ig")
-        for (let i=0; i<lista.length; i++){
-           if (lista[i].nimi.search(re) > -1 || lista[i].numero.search(re) > -1){
-             lista[i].important=true
+        console.log(re)
+        for (let i=0; i<persons.length; i++){
+           if (persons[i].nimi.search(re) > -1 || persons[i].numero.search(re) > -1){
+            console.log(persons[i])
+             persons[i].important=true
+      
             } else {
-             lista[i].important = false 
-            }
-         }
-
-         yhteystiedot = lista.filter(yhteystieto=> yhteystieto.important===true)
-         
+             persons[i].important=false
+            }       
+         } 
+         aseta(!naytaKaikki)
       }
+      
     
-  
-  
-    let yhteystiedot = lista.filter(yhteystieto=> yhteystieto.important===true)
- 
+    const rows=() =>yhteystiedot.map(yhteystieto => 
+      <Yhteystieto 
+        key={yhteystieto.nimi}
+        nimi={yhteystieto.nimi}
+        numero={yhteystieto.numero} />
+     )
 
  
    return (
       <div>
         <h2>Puhelinluettelo</h2>
-      <form>
+      <form >
         <div>Rajaa näytettäviä: <input onChange={handleChange}/><br/>
         </div></form>
         
-        <form onSubmit={addNewName}>
+        <form onSubmit={addNewContact}>
           <div>
             nimi:<br/> <input value={newName} onChange={lisaaNimi} />
           </div>
@@ -95,7 +110,7 @@ const App = () => {
       </form>
       
          <h2>Numerot</h2>
-        <div>{Filtteri(yhteystiedot)}</div>
+        <div>{rows()}</div>
 
       </div>
       )
