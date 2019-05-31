@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Yhteystieto from './components/Yhteystieto';
-
+import Lomake from './components/Lomake'
+import axios from 'axios'
 
 
 
 const App = () => {
 
-  const [ persons, setPersons] = React.useState([
-      { nimi: 'Arto Hellas',
-        numero:'0401234567',
-        important:true
-     },
-      { nimi: 'Maija Mehiläinen',
-        numero: '041-2345678',
-        important:true
-      }
-    ]) 
+  const [persons, setPersons]=useState([])
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+            setPersons(response.data)
+          
+        })
+    }, [])
+
     const [ newName, setNewName ] = React.useState('')
     const [ newNumber, setNewNumber ] = React.useState('')
 
@@ -44,8 +46,6 @@ const App = () => {
                 return true
             }
                }}
-     console.log(newNumber)
-
 
     const addNewContact =(event)=> {
             event.preventDefault()
@@ -63,6 +63,7 @@ const App = () => {
     const  yhteystiedot=naytaKaikki
     ? persons.filter(person=> person.important)
     : persons.filter(person=> person.important)
+    console.log(yhteystiedot)
 
    
     const handleChange =(event)=> { 
@@ -80,16 +81,14 @@ const App = () => {
          } 
          aseta(!naytaKaikki)
       }
-      
     
     const rows=() =>yhteystiedot.map(yhteystieto => 
       <Yhteystieto 
-        key={yhteystieto.nimi}
-        nimi={yhteystieto.nimi}
-        numero={yhteystieto.numero} />
+        key={yhteystieto.id}
+        nimi={yhteystieto.name}
+        numero={yhteystieto.number} />
      )
 
- 
    return (
       <div>
         <h2>Puhelinluettelo</h2>
@@ -97,17 +96,8 @@ const App = () => {
         <div>Rajaa näytettäviä: <input onChange={handleChange}/><br/>
         </div></form>
         
-        <form onSubmit={addNewContact}>
-          <div>
-            nimi:<br/> <input value={newName} onChange={lisaaNimi} />
-          </div>
-            <div>
-             puhelinnumero:<br/> <input value={newNumber} onChange={lisaanro} />
-            </div>
-            <div>
-                <button type="submit">lisää</button>
-        </div>
-      </form>
+       <Lomake  onSubmit={addNewContact} newName={newName} lisaaNimi={lisaaNimi} 
+            newNumber ={newNumber} lisaanro={lisaanro} />
       
          <h2>Numerot</h2>
         <div>{rows()}</div>

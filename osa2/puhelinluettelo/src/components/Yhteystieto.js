@@ -2,9 +2,6 @@ import React from 'react';
 
 
 const Yhteystieto=(props) => {
-
-    
-    
     
     return (
         <div>
