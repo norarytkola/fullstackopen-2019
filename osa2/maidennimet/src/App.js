@@ -2,35 +2,7 @@ import React from 'react';
 import './App.css';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-
-const Maa =( props)=> {
-  const filtteroi=props.lista
-  if (filtteroi.length < 11 && filtteroi.length >1){
-  return(
-    <div>
-    Country:{props.name}<br/>
-    </div>
-  )} else if (filtteroi.length===0){
-    return (
-      <div>Ei yhtään tuloksia</div>
-    )
-  } else if (filtteroi.length===1){
-    return (
-      <div>
-        Country: {props.name}<br/>
-        Capital:Capital:{props.capital}
-      </div>
-    )
-  } else if (filtteroi.length >10  && filtteroi.length<250) {
-    return null(
-      <div>Liikaa tuloksia. Tarkenna hakuehtoja. </div>
-    )
-  } else {
-    return null
-  }
-}
-
-
+import Tulokset from './components/Tulokset';
 
 const App=()=> {
 
@@ -46,21 +18,22 @@ useEffect(() => {
     })
 }, [])
 
-
 const hae=(event)=>{
   const haku=event.target.value
   asetaHakuehto(haku)
   console.log(haku)
           }
 const filtteroi=maat.filter(maa=>maa.name.includes(hakuehto))
-console.log(filtteroi)
-      
 
-  
-
-  const rows=() => filtteroi.map(maa=>
-    <Maa lista={filtteroi} key={maa.id} name={maa.name} capital={maa.capital}
-    />)
+const [saa, lisaaSaa]=useState(["Helsinki"])
+useEffect(() => {
+  axios
+  .get('http://api.apixu.com/v1/current.json?key=c1272d6104cc4900aa9182018190706&q={filtteroi[0].capital}')
+  .then(response => {
+    lisaaSaa(response.data) 
+    })
+    }, [])
+    
 
 
   return (
@@ -68,7 +41,8 @@ console.log(filtteroi)
       <form>
         Find countries: <input onChange={hae}/>
         </form>
-        <div>{rows()}</div>
+        <div><Tulokset filt={filtteroi} saa={saa.current.temp_c}/></div>
+
 
 
     </div>

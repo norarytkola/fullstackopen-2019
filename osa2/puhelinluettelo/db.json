@@ -1,30 +1,52 @@
-
-
 {
-    "persons":[
+  "persons": [
     {
-        "name": "Arto Hellas",
-        "number": "040-123456",
-        "id": 1,
-        "important":true
-      },
-      {
-        "name": "Martti Tienari",
-        "number": "040-123456",
-        "id": 2,
-        "important":true
-      },
-      {
-        "name": "Arto Järvinen",
-        "number": "040-123456",
-        "id": 3,
-        "important":true
-      },
-      {
-        "name": "Lea Kutvonen",
-        "number": "040-123456",
-        "id": 4,
-        "important":true
-      }
-    ]
-  } 
+      "name": "Arto Hellas",
+      "number": "040-123456",
+      "id": 1,
+      "important": true
+    },
+    {
+      "name": "Martti Tienari",
+      "number": "040-123456",
+      "id": 2,
+      "important": true
+    },
+    {
+      "name": "Arto Järvinen",
+      "number": "040-123456",
+      "id": 3,
+      "important": true
+    },
+    {
+      "name": "Lea Kutvonen",
+      "number": "040-123456",
+      "id": 4,
+      "important": true
+    },
+    {
+      "nimi": "Mauno Mainio",
+      "numero": "0412345678",
+      "important": true,
+      "id": 5
+    },
+    {
+      "nimi": "Päivi Paavola",
+      "numero": "09 312 123",
+      "id": 6,
+      "important": true
+    },
+    {
+      "nimi": "Milla Magia",
+      "numero": "09-321 123",
+      "id": 7,
+      "important": true
+    },
+    {
+      "name": "Aku Ankka",
+      "numner": "09 789 987",
+      "id": 8,
+      "important": true
+    }
+  ]
+}

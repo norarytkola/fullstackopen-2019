@@ -13,8 +13,7 @@ const App = () => {
         axios
             .get('http://localhost:3001/persons')
             .then(response => {
-            setPersons(response.data)
-          
+            setPersons(response.data)  
         })
     }, [])
 
@@ -50,44 +49,55 @@ const App = () => {
     const addNewContact =(event)=> {
             event.preventDefault()
                     const lisays= {
-                         nimi:newName, 
-                         numero:newNumber,
+                         name:newName, 
+                         numner:newNumber,
+                         id:persons.length+1,
                          important:true}
-            setPersons(persons.concat(lisays))
-            setNewName('')
-            setNewNumber('')
-          } 
+    axios
+    .post('http://localhost:3001/persons', lisays)
+    .then(response => {
+        setPersons(persons.concat(response.data))
+           setNewName('')
+           setNewNumber('')
+    }) } 
 
     const [naytaKaikki, aseta] = useState(true)
 
     const  yhteystiedot=naytaKaikki
     ? persons.filter(person=> person.important)
     : persons.filter(person=> person.important)
-    console.log(yhteystiedot)
-
-   
+ 
     const handleChange =(event)=> { 
         let haku=event.target.value
         var re = new RegExp(haku, "ig")
-        console.log(re)
         for (let i=0; i<persons.length; i++){
            if (persons[i].nimi.search(re) > -1 || persons[i].numero.search(re) > -1){
-            console.log(persons[i])
-             persons[i].important=true
-      
-            } else {
+             persons[i].important=true     
+           }else{
              persons[i].important=false
-            }       
+           }       
          } 
          aseta(!naytaKaikki)
       }
+      const poista =()=> {
+        for (let a=0; a<yhteystiedot.length; a++){
+          if (poista.id===yhteystiedot[a].name){
+            const poisto=yhteystiedot[a].name
+            alert(`Poistetaanko ${poisto}?`)
+          }
+        }
+      }
     
     const rows=() =>yhteystiedot.map(yhteystieto => 
+      
       <Yhteystieto 
         key={yhteystieto.id}
         nimi={yhteystieto.name}
-        numero={yhteystieto.number} />
+        numero={yhteystieto.number} 
+        poista={this.poista}/>
      )
+
+    
 
    return (
       <div>

@@ -5,8 +5,9 @@ const Yhteystieto=(props) => {
     
     return (
         <div>
-        Nimi: {props.nimi}<br/>
-        Puhelinnumero: {props.numero}<br/>
+          Nimi: {props.nimi}   
+          Puhelinnumero: {props.numero}  
+          <button id={props.nimi} onClick={props.poista}>Poista</button>
         </div>
     )
     
