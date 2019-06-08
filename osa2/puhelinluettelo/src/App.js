@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 
-const App = () => {
+const App = (props) => {
 
   const [persons, setPersons]=useState([])
 
@@ -79,25 +79,21 @@ const App = () => {
          } 
          aseta(!naytaKaikki)
       }
-      const poista =()=> {
-        for (let a=0; a<yhteystiedot.length; a++){
-          if (poista.id===yhteystiedot[a].name){
-            const poisto=yhteystiedot[a].name
-            alert(`Poistetaanko ${poisto}?`)
-          }
-        }
-      }
+
+
+      
+      
     
     const rows=() =>yhteystiedot.map(yhteystieto => 
       
       <Yhteystieto 
-        key={yhteystieto.id}
-        nimi={yhteystieto.name}
-        numero={yhteystieto.number} 
-        poista={this.poista}/>
-     )
 
-    
+        key={yhteystieto.id}
+        yhteystiedot={yhteystiedot} 
+        nimi={yhteystieto.name}
+        numero={yhteystieto.number}
+        />
+     )
 
    return (
       <div>
@@ -111,10 +107,8 @@ const App = () => {
       
          <h2>Numerot</h2>
         <div>{rows()}</div>
-
       </div>
       )
-  
   }
 
   export default App
