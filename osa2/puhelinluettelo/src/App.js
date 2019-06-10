@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Yhteystieto from './components/Yhteystieto';
 import Lomake from './components/Lomake'
 import axios from 'axios'
+import luettelo from './services/puhelinluettelo'
+
 
 
 
@@ -10,28 +12,34 @@ const App = (props) => {
   const [persons, setPersons]=useState([])
 
     useEffect(() => {
-        axios
-            .get('http://localhost:3001/persons')
-            .then(response => {
+        luettelo
+        .getAll()
+        .then(response => {
             setPersons(response.data)  
         })
     }, [])
 
     const [ newName, setNewName ] = React.useState('')
     const [ newNumber, setNewNumber ] = React.useState('')
+    const [muokkaus, muokkaa]=React.useState('')
 
 
     const lisaaNimi =(event)=>{
       let val=event.target.value
       for (let i=0; i<persons.length; i++){
-        if (val===persons[i].nimi){
-           alert( `${val} on jo puhelinluettelossa`)
-           setNewName('')
+        if (val===persons[i].name){
+          console.log("moi")
+           window.confirm( `${val} on jo puhelinluettelossa. Vaihdetaanko uusi numero henkilölle
+           ${val}?`)
+           muokkaa(i)
+           setNewName(val)
            return false
-            } else {
+            } else if (val !==persons[i].name) {
             setNewName(val)
               return true
-            }}}         
+            } 
+            }
+        }     
 
     const lisaanro =(event)=>{
       let nro=event.target.value
@@ -50,16 +58,17 @@ const App = (props) => {
             event.preventDefault()
                     const lisays= {
                          name:newName, 
-                         numner:newNumber,
-                         id:persons.length+1,
-                         important:true}
-    axios
-    .post('http://localhost:3001/persons', lisays)
+                         number:newNumber,
+                         important:true
+                        }
+    luettelo
+    .create()
     .then(response => {
-        setPersons(persons.concat(response.data))
-           setNewName('')
-           setNewNumber('')
-    }) } 
+        setPersons(persons.concat(response.data))  
+    })
+     setNewName('')
+     setNewNumber('')
+  }
 
     const [naytaKaikki, aseta] = useState(true)
 
@@ -79,10 +88,7 @@ const App = (props) => {
          } 
          aseta(!naytaKaikki)
       }
-
-
-      
-      
+ 
     
     const rows=() =>yhteystiedot.map(yhteystieto => 
       

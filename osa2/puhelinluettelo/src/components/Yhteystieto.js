@@ -5,21 +5,22 @@ import {useState} from 'react'
 
 const Yhteystieto=(props) => {
   const yhteystiedot=props.yhteystiedot
-  const baseUrl = 'http://localhost:3001/persons'
   let index=useState(-1)
   const poista =()=> {
     for (let a=0; a<yhteystiedot.length; a++){
       if (yhteystiedot[a].name===props.nimi){
-        console.log(yhteystiedot[a].name)
+        
         const poisto=yhteystiedot[a].name
         index=a
        window.confirm(`Poistetaanko ${poisto}?`) 
       }
-      axios.delete(`http://localhost:3001/persons/${index}`)
+      if (index > -1){
+      axios.delete(`http://localhost:3001/persons/${yhteystiedot[a].id}`)
       .then(response => {
-        yhteystiedot.splice({index})
+       yhteystiedot.filter(y => y.id !==yhteystiedot[a].id )
       })
-  }}
+  }
+}}
     
     return (
         <div key={props.id}>

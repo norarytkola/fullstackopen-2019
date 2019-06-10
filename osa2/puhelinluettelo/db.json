@@ -13,16 +13,19 @@
       "important": true
     },
     {
-      "name": "Lea Kutvonen",
-      "number": "040-123456",
-      "id": 4,
-      "important": true
+      "name": "Timo Tiainen",
+      "number": "09-7516265",
+      "important": true,
+      "id": 4
     },
     {
-      "name": "Aku Ankka",
-      "number": "09 789 987",
-      "id": 8,
-      "important": true
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "id": 7
     }
   ]
 }
