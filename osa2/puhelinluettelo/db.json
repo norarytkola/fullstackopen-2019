@@ -1,31 +1,28 @@
 {
   "persons": [
     {
-      "name": "Martti Tienari",
-      "number": "040-123456",
-      "id": 2,
-      "important": true
-    },
-    {
-      "name": "Arto Järvinen",
-      "number": "040-123456",
-      "id": 3,
-      "important": true
-    },
-    {
       "name": "Timo Tiainen",
-      "number": "09-7516265",
+      "number": "040-7891234",
       "important": true,
       "id": 4
     },
     {
-      "id": 5
-    },
-    {
+      "name": "Miisa Aurinkoinen",
+      "number": "019-524685",
+      "important": true,
       "id": 6
     },
     {
-      "id": 7
+      "name": "Arto Järvinen",
+      "number": "050-3156762",
+      "important": true,
+      "id": 8
+    },
+    {
+      "name": "Satu Rajala",
+      "number": "07-5789623",
+      "important": true,
+      "id": 9
     }
   ]
 }

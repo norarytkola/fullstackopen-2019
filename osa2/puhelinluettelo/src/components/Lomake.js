@@ -14,7 +14,7 @@ const Lomake=(props)=> {
              puhelinnumero:<br/> <input value={props.newNumber} onChange={props.lisaanro} />
             </div>
             <div>
-                <button type="submit">lisää</button>
+                <button type="submit" >lisää</button>
         </div>
       </form>
             </div>

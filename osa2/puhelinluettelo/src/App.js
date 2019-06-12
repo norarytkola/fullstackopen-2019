@@ -1,56 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import Yhteystieto from './components/Yhteystieto';
 import Lomake from './components/Lomake'
-import axios from 'axios'
 import luettelo from './services/puhelinluettelo'
 
 
 
-
-const App = (props) => {
+const App = () => {
 
   const [persons, setPersons]=useState([])
 
     useEffect(() => {
         luettelo
-        .getAll()
-        .then(response => {
-            setPersons(response.data)  
-        })
+         .getAll()
+         .then(henkilo=>
+          setPersons(henkilo))
     }, [])
 
     const [ newName, setNewName ] = React.useState('')
     const [ newNumber, setNewNumber ] = React.useState('')
-    const [muokkaus, muokkaa]=React.useState('')
+    const [muokkaus, muokkaa]=React.useState(-1)
+    let index=-1
 
 
     const lisaaNimi =(event)=>{
       let val=event.target.value
       for (let i=0; i<persons.length; i++){
         if (val===persons[i].name){
-          console.log("moi")
-           window.confirm( `${val} on jo puhelinluettelossa. Vaihdetaanko uusi numero henkilölle
-           ${val}?`)
-           muokkaa(i)
-           setNewName(val)
-           return false
-            } else if (val !==persons[i].name) {
-            setNewName(val)
-              return true
-            } 
+           alert( `${val} on jo puhelinluettelossa.`)
+           muokkaa(persons[i].id)        
             }
-        }     
+            setNewName(val)
+          }}         
 
     const lisaanro =(event)=>{
       let nro=event.target.value
          for (let i=0; i<persons.length; i++){
-            if (nro===persons[i].numero){
+            if (nro===persons[i].number){
                alert(`${nro} on jo puhelinluettelossa`)
                setNewNumber('')
-               return false
             }else {
                 setNewNumber(nro)
-                return true
             }
                }}
 
@@ -59,16 +48,20 @@ const App = (props) => {
                     const lisays= {
                          name:newName, 
                          number:newNumber,
-                         important:true
-                        }
+                         important:true}
+            if (muokkaus>-1){
+              window.confirm(`${newName} on jo luettelossa. Päivitetäänkö numero?`)
+              luettelo.update(muokkaus, lisays)
+              muokkaa(-1)
+            } else {
     luettelo
-    .create()
-    .then(response => {
-        setPersons(persons.concat(response.data))  
-    })
-     setNewName('')
-     setNewNumber('')
-  }
+    .create(lisays)
+    .then (lisays => 
+      setPersons(persons.concat(lisays)))
+    }
+           setNewName('')
+           setNewNumber('')
+    }  
 
     const [naytaKaikki, aseta] = useState(true)
 
@@ -88,33 +81,32 @@ const App = (props) => {
          } 
          aseta(!naytaKaikki)
       }
- 
-    
+
     const rows=() =>yhteystiedot.map(yhteystieto => 
       
       <Yhteystieto 
-
+      index={index}
+      yhteystiedot={yhteystiedot}
         key={yhteystieto.id}
-        yhteystiedot={yhteystiedot} 
         nimi={yhteystieto.name}
-        numero={yhteystieto.number}
+        numero={yhteystieto.number} 
         />
      )
 
    return (
       <div>
         <h2>Puhelinluettelo</h2>
-      <form >
-        <div>Rajaa näytettäviä: <input onChange={handleChange}/><br/>
-        </div></form>
-        
+        <form >
+          <div>Rajaa näytettäviä: <input onChange={handleChange}/><br/>
+          </div>
+        </form>
        <Lomake  onSubmit={addNewContact} newName={newName} lisaaNimi={lisaaNimi} 
-            newNumber ={newNumber} lisaanro={lisaanro} />
-      
+            newNumber ={newNumber} lisaanro={lisaanro}/>
          <h2>Numerot</h2>
         <div>{rows()}</div>
+        <div></div>
       </div>
-      )
+      ) 
   }
 
   export default App

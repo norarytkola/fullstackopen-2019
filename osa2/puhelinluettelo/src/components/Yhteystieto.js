@@ -1,34 +1,33 @@
 import React from 'react';
-import axios from 'axios';
-import {useState} from 'react'
+import axios from'axios'
+
+
+
 
 
 const Yhteystieto=(props) => {
+
   const yhteystiedot=props.yhteystiedot
-  let index=useState(-1)
   const poista =()=> {
     for (let a=0; a<yhteystiedot.length; a++){
       if (yhteystiedot[a].name===props.nimi){
-        
         const poisto=yhteystiedot[a].name
-        index=a
+        const id=yhteystiedot[a].id
        window.confirm(`Poistetaanko ${poisto}?`) 
+       axios
+       .delete(`http://localhost:3001/persons/${id}`)
+    .then(res => console.log(res.data));
+    yhteystiedot.filter(per => per.id !== id)
       }
-      if (index > -1){
-      axios.delete(`http://localhost:3001/persons/${yhteystiedot[a].id}`)
-      .then(response => {
-       yhteystiedot.filter(y => y.id !==yhteystiedot[a].id )
-      })
-  }
-}}
-    
-    return (
-        <div key={props.id}>
-          Nimi: {props.nimi}   
-          Puhelinnumero: {props.numero}  
-          <button id={props.nimi} onClick={poista}>Poista</button>
-          </div>
-    )   
-}
+  }}
 
+  return (
+    <div >
+      Nimi: {props.nimi}   
+      Puhelinnumero: {props.numero}  
+      <button  onClick={poista}>Poista</button>
+    </div>
+)
+
+}
 export default Yhteystieto;
