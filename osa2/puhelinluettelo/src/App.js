@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Yhteystieto from './components/Yhteystieto';
-import Lomake from './components/Lomake'
-import luettelo from './services/puhelinluettelo'
+import Lomake from './components/Lomake';
+import luettelo from './services/puhelinluettelo';
+import Info from './components/Info'
+
 
 
 
@@ -19,6 +21,7 @@ const App = () => {
     const [ newName, setNewName ] = React.useState('')
     const [ newNumber, setNewNumber ] = React.useState('')
     const [muokkaus, muokkaa]=React.useState(-1)
+    const [vahvistus, vahvista]=React.useState('')
     let index=-1
 
 
@@ -52,12 +55,20 @@ const App = () => {
             if (muokkaus>-1){
               window.confirm(`${newName} on jo luettelossa. Päivitetäänkö numero?`)
               luettelo.update(muokkaus, lisays)
+              vahvista("Numero on päivitetty")
+              setTimeout(() => {
+                vahvista(null)
+              }, 5000)
               muokkaa(-1)
             } else {
     luettelo
     .create(lisays)
     .then (lisays => 
       setPersons(persons.concat(lisays)))
+      vahvista("Yhteystieto lisätty")
+              setTimeout(() => {
+                vahvista(null)
+              }, 5000)
     }
            setNewName('')
            setNewNumber('')
@@ -95,6 +106,7 @@ const App = () => {
 
    return (
       <div>
+        <Info message={vahvistus}/>
         <h2>Puhelinluettelo</h2>
         <form >
           <div>Rajaa näytettäviä: <input onChange={handleChange}/><br/>
@@ -104,9 +116,8 @@ const App = () => {
             newNumber ={newNumber} lisaanro={lisaanro}/>
          <h2>Numerot</h2>
         <div>{rows()}</div>
-        <div></div>
       </div>
-      ) 
+   )
   }
 
   export default App
