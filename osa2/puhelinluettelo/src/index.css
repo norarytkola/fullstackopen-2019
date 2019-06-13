@@ -19,6 +19,28 @@ color:green;
 padding:0.5em;
 margin:0.5em;
 text-align:center;
-background-color: aquamarine
+background-color: aquamarine;
 
 }
+
+.virhe {
+  font-size:3em;
+  font-weight: bold;
+  border:2px double red;
+  color: red;
+  padding:0.5em;
+  margin:0.5em;
+  text-align:center;
+  background-color: aquamarine;
+  }
+  div {
+    padding:0.2em;
+  }
+  h2 {
+    margin-left:1em
+  }
+
+  #tiedot {
+    background-color: beige;
+    width: 40%;
+  }

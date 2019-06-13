@@ -18,13 +18,14 @@ const Yhteystieto=(props) => {
        .delete(`http://localhost:3001/persons/${id}`)
     .then(res => console.log(res.data));
     yhteystiedot.filter(per => per.id !== id)
+
       }
   }}
 
   return (
     <div >
-      Nimi: {props.nimi}   
-      Puhelinnumero: {props.numero}  
+      Nimi: {props.nimi}  <br/>     
+      Puhelinnumero: {props.numero}  <br/>
       <button  onClick={poista}>Poista</button>
     </div>
 )

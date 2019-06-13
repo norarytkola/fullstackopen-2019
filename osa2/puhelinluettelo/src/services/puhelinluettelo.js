@@ -15,7 +15,8 @@ const create = lisays => {
     return request.then(response => response.data)
   }
   
-  const update = (muokkaus, newNumber) => {    const request= axios.put(`${baseUrl}/${muokkaus}`, newNumber)
+  const update = (muokkaus, newNumber) => {
+    const request= axios.put(`${baseUrl}/${muokkaus}`, newNumber)
     return request.then(response => response.data)
   }
   const poistacontact = index =>{

@@ -1,34 +1,16 @@
 {
   "persons": [
     {
-      "name": "Timo Tiainen",
-      "number": "040-7891234",
+      "name": "Maija Meriaho",
+      "number": "050-2677692",
       "important": true,
-      "id": 4
+      "id": 12
     },
     {
-      "name": "Miisa Aurinkoinen",
-      "number": "019-524685",
+      "name": "Pekka Pouta",
+      "number": "019-535456",
       "important": true,
-      "id": 6
-    },
-    {
-      "name": "Arto Järvinen",
-      "number": "050-3156762",
-      "important": true,
-      "id": 8
-    },
-    {
-      "name": "Satu Rajala",
-      "number": "07-5789623",
-      "important": true,
-      "id": 9
-    },
-    {
-      "name": "Maija Mehiläinen",
-      "number": "03-523756",
-      "important": true,
-      "id": 10
+      "id": 14
     }
   ]
 }

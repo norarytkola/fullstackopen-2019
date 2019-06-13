@@ -3,6 +3,7 @@ import Yhteystieto from './components/Yhteystieto';
 import Lomake from './components/Lomake';
 import luettelo from './services/puhelinluettelo';
 import Info from './components/Info'
+import Virhe from './components/Virhe'
 
 
 
@@ -21,7 +22,8 @@ const App = () => {
     const [ newName, setNewName ] = React.useState('')
     const [ newNumber, setNewNumber ] = React.useState('')
     const [muokkaus, muokkaa]=React.useState(-1)
-    const [vahvistus, vahvista]=React.useState('')
+    const [vahvistus, vahvista]=React.useState(null)
+    const [virhe, lisaavirhe]=React.useState(null)
     let index=-1
 
 
@@ -55,10 +57,18 @@ const App = () => {
             if (muokkaus>-1){
               window.confirm(`${newName} on jo luettelossa. Päivitetäänkö numero?`)
               luettelo.update(muokkaus, lisays)
-              vahvista("Numero on päivitetty")
-              setTimeout(() => {
-                vahvista(null)
-              }, 5000)
+              .then(muutos =>{
+                aseta(!naytaKaikki)
+                vahvista("Yhteystieto lisätty")
+                setTimeout(() => {
+                  vahvista(null)
+                }, 5000)})
+  
+              .catch(error =>{
+                lisaavirhe("Yhteystiedon päivittäminen ei onnistu")
+                setTimeout(() => {
+                  lisaavirhe(null)
+                }, 5000)})
               muokkaa(-1)
             } else {
     luettelo
@@ -69,7 +79,7 @@ const App = () => {
               setTimeout(() => {
                 vahvista(null)
               }, 5000)
-    }
+              }
            setNewName('')
            setNewNumber('')
     }  
@@ -94,19 +104,22 @@ const App = () => {
       }
 
     const rows=() =>yhteystiedot.map(yhteystieto => 
-      
+      <div id="tiedot">
       <Yhteystieto 
+      sanoma={vahvistus}
       index={index}
       yhteystiedot={yhteystiedot}
         key={yhteystieto.id}
         nimi={yhteystieto.name}
         numero={yhteystieto.number} 
         />
+        </div>
      )
 
    return (
       <div>
         <Info message={vahvistus}/>
+        <Virhe ilmoitus={virhe}/>
         <h2>Puhelinluettelo</h2>
         <form >
           <div>Rajaa näytettäviä: <input onChange={handleChange}/><br/>
