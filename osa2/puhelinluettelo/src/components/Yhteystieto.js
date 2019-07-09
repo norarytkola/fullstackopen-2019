@@ -17,7 +17,7 @@ const Yhteystieto=(props) => {
        axios
        .delete(`http://localhost:3001/persons/${id}`)
     .then(res => console.log(res.data));
-    yhteystiedot.filter(per => per.id !== id)
+    yhteystiedot.splice(a)
 
       }
   }}
