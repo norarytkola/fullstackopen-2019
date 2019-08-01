@@ -1,7 +1,5 @@
 import React from 'react'
-import {useState, useEffect} from 'react'
-import axios from 'axios'
-
+import {useState} from 'react'
 
 const Maa =( props)=> {
     const filtteroi=props.lista
@@ -37,7 +35,6 @@ const kuva=filtteroi[0].flag
           Population:{props.popu}
           Languages:<ul>{kielet()}</ul>
           <img src={kuva} width='150em'/>
-          Weather:{props.saa}
             </div>
             )
     }else if (index > -1){

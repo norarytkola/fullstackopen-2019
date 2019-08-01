@@ -13,6 +13,9 @@ const getAll = () => {
 const create = lisays => {
     const request= axios.post(baseUrl, lisays)
     return request.then(response => response.data)
+    .catch(error=>{
+      return("Nimen täytyy olla uniikki")
+    })
   }
   
   const update = (muokkaus, newNumber) => {
