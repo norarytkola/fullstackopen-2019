@@ -5,7 +5,7 @@ const Blogi=require('../models/blogi.js')
 const api = supertest(app)
 
 
-const testi=new Blogi({
+const testi=({
   title: "Testiotsikko",
   author: "Sara Parikka",
   url: "www.testi.fi"
@@ -43,7 +43,8 @@ test('there is only one blog', async () => {
   const testi2=new Blogi({
     title: "Testiotsikko2",
     author: "Testibloggaaja",
-    url: "www.testi.ok"
+    url: "www.testi.ok",
+    likes:0
   })
   const response=await api
   .post('/api/blogs')
@@ -52,28 +53,38 @@ test('there is only one blog', async () => {
   })
 
   test('Likes of testposting is 0', async() => {
+    const testi={
+      author: "Testibloggaaja",
+      url: "www.testi.ok",
+      title:"Moi"
+    }
+    await api
+      .post('/api/blogs')
+      .send(testi)
     const response=await api
         .get('/api/blogs')
-        expect(response.body[0].likes).toBe(0)
+        expect(response.body[1].likes).toBe(0)
   })
 
   test('Adding blog without title causes error', async() => {
-      const testi=new Blogi({
+      const testi={
         author: "Testibloggaaja",
         url: "www.testi.ok"
-      })
+      }
       const response=await api
-        .post('/api/blogs', testi)
-        expect(response.status).toBe(400)
+        .post('/api/blogs')
+        .send(testi)
+        expect(400)
   })
   test('Adding blog without url causes error', async() => {
-    const testi=new Blogi({
+    const testi={
       title:"Testi",
       author: "Testibloggaaja"
-    })
+    }
     const response=await api
-      .post('/api/blogs', testi)
-      expect(response.status).toBe(400)
+      .post('/api/blogs')
+      .send(testi)
+      expect(400)
 })
 
 afterAll(() => {
