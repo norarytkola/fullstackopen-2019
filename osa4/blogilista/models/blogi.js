@@ -1,6 +1,10 @@
 const mongoose=require('mongoose')
+const validator = require('mongoose-unique-validator')
 
-const mongoUrl = process.env.URL
+let mongoUrl = process.env.URL
+  if (process.env.NODE_ENV === 'test') {
+    mongoUrl = process.env.TEST_URL
+  }
 console.log(mongoUrl)
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true })
@@ -12,10 +16,22 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true })
   })
 
   const blogSchema = mongoose.Schema({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number
+    title:{
+      type: String,
+      required:true,
+      minlength:2
+    },
+    author:{
+      type: String,
+      required:true,
+      minlength:2
+    },
+    url: {
+      type:String,
+      required:true,
+      minlength:5
+    },
+    likes:Number
   })
 
   blogSchema.set('toJSON', {
@@ -25,5 +41,6 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true })
       delete returnedObject.__v
     }
   })
+  blogSchema.plugin(validator)
 
   module.exports = mongoose.model('Blogi', blogSchema)
