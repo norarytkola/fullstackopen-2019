@@ -4,7 +4,6 @@ const app = require('../app')
 const Blogi=require('../models/blogi.js')
 const api = supertest(app)
 
-
 const testi=({
   title: "Testiotsikko",
   author: "Sara Parikka",
@@ -17,8 +16,6 @@ beforeEach(async () => {
   let testObject = new Blogi(testi)
   await testObject.save()
 })
-
-
 
 test('blogs are returned as json', async () => {
   await api
@@ -49,7 +46,7 @@ test('there is only one blog', async () => {
   const response=await api
   .post('/api/blogs')
   .send(testi2)
-  expect(response.status).toBe(201)
+  expect(response.status).toBe(200)
   })
 
   test('Likes of testposting is 0', async() => {
