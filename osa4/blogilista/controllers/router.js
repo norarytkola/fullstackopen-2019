@@ -13,29 +13,34 @@ const getTokenFrom = request => {
 
 blogRouter.delete('/:id', async (request, response, next)=>{
   try {
-    const b=Blogi.findById(request.params.id)
-    const bloggaaja=b.user.id
+    const token = getTokenFrom(request)
     const dToken = jwt.verify(token, process.env.SECRET)
-    if (!token || !dToken.id|| !dToken.id===bloggaaja) {
-      return response.status(401).json({ error: 'Et voi poistaa tätä blogia.' })
-    }else {
-   await 
-      Blogi.findByIdAndRemove(request.params.id)
+    const a=dToken.id.toString()
+    const body=await Blogi.findById(request.params.id)
+    const b=body.user.toString()
+      if ( a===b) {
+    await Blogi.findByIdAndRemove(request.params.id)
    response.status(204).end()
-   }}
+   } }
    catch (exception) {
       next(exception)
     } 
   })
 
-  blogRouter.put('/:id', async(request, response, next)=>{
-      try{
-      await Blogi.findByIdAndUpdate(request.params.id,request.body, {new:true})
-      response.status(204).end()
-      }
-      catch(exception){
-        next(exception)
-      }
+blogRouter.put('/:id', (request, response, next) => {
+  const body = request.body
+  const blog = {
+    title: body.title,
+    author: body.author,
+    url:body.url,
+    likes:body.likes
+  }
+
+  Blogi.findByIdAndUpdate(request.params.id, blog, { new: true })
+    .then(updatedBlog => {
+      response.json(updatedBlog.toJSON())
+    })
+    .catch(error => next(error))
 })
 
 blogRouter.get('/', async(request, response, next) => {
@@ -47,7 +52,6 @@ blogRouter.get('/', async(request, response, next) => {
   next(exception)
   }
 })
-
 
 blogRouter.post('/', async(request, response, next) => {
   const body = request.body
