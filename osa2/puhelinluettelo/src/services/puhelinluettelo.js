@@ -23,7 +23,6 @@ const create = lisays => {
     return request.then(response => response.data)
   }
   const poistacontact = index =>{
-    console.log(index)
     axios.delete(`${baseUrl}/${index}`)
     .then(res => console.log(res.data));
       
