@@ -9,7 +9,7 @@ mongoose.set('useFindAndModify', false)
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
-    }
+    },
   })
 
   blogSchema.set('toJSON', {

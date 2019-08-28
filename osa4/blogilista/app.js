@@ -6,6 +6,7 @@ const cors = require('cors')
 const blogRouter=require('./controllers/router')
 const userRouter = require('./controllers/userRouter')
 const loginRouter = require('./controllers/login')
+const commentRouter= require('./controllers/commentRouter')
 const mongoose=require('mongoose')
 mongoose.set('useFindAndModify', false)
 
@@ -41,6 +42,7 @@ app.use(bodyParser.json())
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/blogs', blogRouter)
+app.use('/api/comments', commentRouter)
 
 
 
